@@ -1,0 +1,21 @@
+{
+  "name": "universal-creator-ecosystem",
+  "private": true,
+  "version": "0.1.0",
+  "engines": { "node": ">=22.12 <25" },
+  "workspaces": ["apps/api", "apps/web"],
+  "scripts": {
+    "dev:api": "npm run dev --workspace @uce/api",
+    "dev:web": "npm run dev --workspace @uce/web",
+    "worker": "npm run worker --workspace @uce/api",
+    "db:generate": "prisma generate",
+    "db:deploy": "prisma migrate deploy",
+    "db:validate": "prisma validate",
+    "typecheck": "npm run typecheck --workspaces",
+    "build": "npm run db:generate && npm run build --workspaces",
+    "test": "node --test tests/*.test.mjs",
+    "test:integration": "npm run test:integration --workspace @uce/api"
+  },
+  "dependencies": { "@prisma/client": "6.19.0" },
+  "devDependencies": { "prisma": "6.19.0", "typescript": "~5.9.3", "@types/node": "^22.19.0" }
+}
