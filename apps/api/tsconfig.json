@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "target": "ES2023", "module": "NodeNext", "moduleResolution": "NodeNext",
+    "strict": true, "esModuleInterop": true, "experimentalDecorators": true,
+    "emitDecoratorMetadata": true, "allowJs": true, "checkJs": false,
+    "skipLibCheck": true, "outDir": "dist", "rootDir": "../..",
+    "declaration": false, "resolveJsonModule": true
+  },
+  "include": ["src/**/*.ts", "test/**/*.ts", "../../scripts/**/*.ts", "../../packages/domain/**/*.mjs"],
+  "exclude": ["dist"]
+}

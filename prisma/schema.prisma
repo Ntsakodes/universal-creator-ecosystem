@@ -1,0 +1,319 @@
+generator client {
+  provider = "prisma-client-js"
+}
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Visibility {
+  PRIVATE
+  PUBLIC
+}
+enum MemberRole {
+  EDITOR
+  VIEWER
+}
+enum ScanStatus {
+  PENDING
+  READY
+  REJECTED
+}
+enum ReviewStatus {
+  REQUESTED
+  ACCEPTED
+  COMPLETED
+  DECLINED
+  REVOKED
+}
+enum CampaignStatus {
+  DRAFT
+  OPEN_INTEREST
+  CLOSED
+}
+
+model User {
+  id          String @id @default(uuid()) @db.Uuid
+  subject     String @unique
+  email       String
+  createdAt   DateTime @default(now())
+  profile     CreatorProfile?
+  sessions    Session[]
+  projects    Project[]
+  memberships ProjectMember[]
+  expert      ExpertProfile?
+  institutions Institution[]
+  reviews     ReviewRequest[]
+  pledges     Pledge[]
+  aiRuns      AiRun[]
+}
+model Session {
+  tokenHash String @id
+  userId    String @db.Uuid
+  user      User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  @@index([expiresAt])
+}
+model AuthFlow {
+  stateHash String @id
+  verifier  String
+  nonce     String
+  expiresAt DateTime
+  @@index([expiresAt])
+}
+model CreatorProfile {
+  userId      String @id @db.Uuid
+  user        User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  displayName String
+  biography   String @default("")
+  disciplines String[]
+  skills      String[]
+  languages   String[]
+  region      String @default("")
+  links       String[]
+  visibility  Visibility @default(PRIVATE)
+  updatedAt   DateTime @updatedAt
+}
+model Project {
+  id          String @id @default(uuid()) @db.Uuid
+  ownerId     String @db.Uuid
+  owner       User @relation(fields: [ownerId], references: [id])
+  title       String
+  summary     String @default("")
+  discipline  String
+  visibility  Visibility @default(PRIVATE)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  members     ProjectMember[]
+  works       Work[]
+  campaign    Campaign?
+  aiRuns      AiRun[]
+  @@index([ownerId, createdAt])
+}
+model ProjectMember {
+  projectId String @db.Uuid
+  userId    String @db.Uuid
+  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  user      User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role      MemberRole @default(VIEWER)
+  createdAt DateTime @default(now())
+  @@id([projectId, userId])
+  @@index([userId])
+}
+model Work {
+  id             String @id @default(uuid()) @db.Uuid
+  projectId      String @db.Uuid
+  project        Project @relation(fields: [projectId], references: [id])
+  title          String
+  category       String
+  claimedAuthor  String
+  claimedCreatedAt DateTime?
+  sensitive      Boolean @default(false)
+  culturalNotes  String @default("")
+  createdAt      DateTime @default(now())
+  versions       WorkVersion[]
+  assets         Asset[]
+  contributors   Contributor[]
+  rights         RightsRecord[]
+  @@index([projectId])
+}
+model WorkVersion {
+  id          String @id @default(uuid()) @db.Uuid
+  workId      String @db.Uuid
+  work        Work @relation(fields: [workId], references: [id])
+  number      Int
+  content     String
+  note        String
+  manifestHash String
+  recordedBy  String @db.Uuid
+  createdAt   DateTime @default(now())
+  assets      VersionAsset[]
+  reviews     ReviewRequest[]
+  aiRuns      AiRun[]
+  @@unique([workId, number])
+}
+model Asset {
+  id        String @id @default(uuid()) @db.Uuid
+  workId    String @db.Uuid
+  work      Work @relation(fields: [workId], references: [id])
+  filename  String
+  mimeType  String
+  size      Int
+  objectKey String @unique
+  objectVersion String?
+  sha256    String?
+  status    ScanStatus @default(PENDING)
+  createdAt DateTime @default(now())
+  versions  VersionAsset[]
+  rights    RightsRecord[]
+}
+model VersionAsset {
+  versionId String @db.Uuid
+  assetId   String @db.Uuid
+  version   WorkVersion @relation(fields: [versionId], references: [id])
+  asset     Asset @relation(fields: [assetId], references: [id])
+  @@id([versionId, assetId])
+}
+model Contributor {
+  id       String @id @default(uuid()) @db.Uuid
+  workId   String @db.Uuid
+  work     Work @relation(fields: [workId], references: [id])
+  name     String
+  role     String
+  note     String @default("")
+  createdAt DateTime @default(now())
+}
+model RightsRecord {
+  id       String @id @default(uuid()) @db.Uuid
+  workId   String @db.Uuid
+  work     Work @relation(fields: [workId], references: [id])
+  party    String
+  rightType String
+  territory String
+  use      String
+  startsAt DateTime
+  endsAt   DateTime?
+  shareBasisPoints Int?
+  agreementAssetId String @db.Uuid
+  agreement Asset @relation(fields: [agreementAssetId], references: [id])
+  note     String
+  createdAt DateTime @default(now())
+  // Supporting asset is constrained to the same work in the service and migration.
+}
+model Institution {
+  id          String @id @default(uuid()) @db.Uuid
+  adminId     String @db.Uuid
+  admin       User @relation(fields: [adminId], references: [id])
+  name        String
+  kind        String
+  website     String
+  description String
+  verifiedAt  DateTime?
+  verificationReference String?
+  createdAt   DateTime @default(now())
+  affiliations Affiliation[]
+}
+model ExpertProfile {
+  userId      String @id @db.Uuid
+  user        User @relation(fields: [userId], references: [id])
+  biography   String
+  qualifications String
+  expertise   String[]
+  languages   String[]
+  regions     String[]
+  publications String[]
+  available   Boolean @default(true)
+  public      Boolean @default(false)
+  affiliations Affiliation[]
+}
+model Affiliation {
+  id            String @id @default(uuid()) @db.Uuid
+  expertId      String @db.Uuid
+  expert        ExpertProfile @relation(fields: [expertId], references: [userId])
+  institutionId String @db.Uuid
+  institution   Institution @relation(fields: [institutionId], references: [id])
+  title         String
+  confirmedAt   DateTime?
+  @@unique([expertId, institutionId])
+}
+model ReviewRequest {
+  id          String @id @default(uuid()) @db.Uuid
+  versionId   String @db.Uuid
+  version     WorkVersion @relation(fields: [versionId], references: [id])
+  reviewerId  String @db.Uuid
+  reviewer    User @relation(fields: [reviewerId], references: [id])
+  requestedBy String @db.Uuid
+  question    String
+  consentNote String
+  scope       String
+  compensation String
+  status      ReviewStatus @default(REQUESTED)
+  conflictDeclaration String?
+  affiliationSnapshot Json?
+  reviewerSnapshot Json?
+  createdAt   DateTime @default(now())
+  report      ReviewReport?
+  @@index([reviewerId, status])
+}
+model ReviewReport {
+  id          String @id @default(uuid()) @db.Uuid
+  requestId   String @unique @db.Uuid
+  request     ReviewRequest @relation(fields: [requestId], references: [id])
+  outcome     String
+  methodology String
+  limitations String
+  recommendations String
+  sources     Json
+  createdAt   DateTime @default(now())
+}
+model Campaign {
+  id          String @id @default(uuid()) @db.Uuid
+  projectId   String @unique @db.Uuid
+  project     Project @relation(fields: [projectId], references: [id])
+  title       String
+  description String
+  targetMinor Int
+  currency    String @default("ZAR")
+  status      CampaignStatus @default(DRAFT)
+  createdAt   DateTime @default(now())
+  milestones  Milestone[]
+  pledges     Pledge[]
+}
+model Milestone {
+  id          String @id @default(uuid()) @db.Uuid
+  campaignId  String @db.Uuid
+  campaign    Campaign @relation(fields: [campaignId], references: [id])
+  title       String
+  description String
+  completedAt DateTime?
+}
+model Pledge {
+  id          String @id @default(uuid()) @db.Uuid
+  campaignId  String @db.Uuid
+  campaign    Campaign @relation(fields: [campaignId], references: [id])
+  userId      String @db.Uuid
+  user        User @relation(fields: [userId], references: [id])
+  amountMinor Int
+  kind        String
+  createdAt   DateTime @default(now())
+  @@unique([campaignId, userId])
+}
+model AiRun {
+  id          String @id @default(uuid()) @db.Uuid
+  userId      String @db.Uuid
+  user        User @relation(fields: [userId], references: [id])
+  projectId   String @db.Uuid
+  project     Project @relation(fields: [projectId], references: [id])
+  versionId   String @db.Uuid
+  version     WorkVersion @relation(fields: [versionId], references: [id])
+  provider    String
+  endpoint    String
+  model       String
+  instruction String
+  consentAt   DateTime
+  status      String @default("PENDING")
+  output      String?
+  createdAt   DateTime @default(now())
+  @@index([userId, createdAt])
+}
+model Job {
+  id          String @id @default(uuid()) @db.Uuid
+  kind        String
+  resourceId  String @unique @db.Uuid
+  state       String @default("PENDING")
+  lockedAt    DateTime?
+  attempts    Int @default(0)
+  error       String?
+  createdAt   DateTime @default(now())
+  @@index([state, createdAt])
+}
+model AuditEvent {
+  id          String @id @default(uuid()) @db.Uuid
+  actorId     String @db.Uuid
+  action      String
+  resourceId  String @db.Uuid
+  detail      Json
+  createdAt   DateTime @default(now())
+  @@index([resourceId, createdAt])
+}

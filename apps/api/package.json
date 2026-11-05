@@ -1,0 +1,19 @@
+{
+  "name": "@uce/api", "version": "0.1.0", "private": true,
+  "scripts": {
+    "dev": "tsx watch --env-file=../../.env src/main.ts",
+    "worker": "tsx --env-file=../../.env src/worker.ts",
+    "build": "tsc -p tsconfig.json",
+    "start": "node dist/apps/api/src/main.js",
+    "typecheck": "tsc --noEmit",
+    "test:integration": "tsx --env-file=../../.env --test test/integration.test.ts"
+  },
+  "dependencies": {
+    "@nestjs/common": "^11.1.6", "@nestjs/core": "^11.1.6", "@nestjs/platform-express": "^11.1.6",
+    "@nestjs/swagger": "^11.2.0", "@nestjs/throttler": "^6.4.0",
+    "@aws-sdk/client-s3": "^3.922.0", "@aws-sdk/s3-request-presigner": "^3.922.0",
+    "express": "^5.1.0", "cookie-parser": "^1.4.7", "helmet": "^8.1.0", "jose": "^6.1.0",
+    "reflect-metadata": "^0.2.2", "rxjs": "^7.8.2", "zod": "^4.1.12"
+  },
+  "devDependencies": { "tsx": "^4.20.6", "@types/express": "^5.0.5", "@types/cookie-parser": "^1.4.10" }
+}
