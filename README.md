@@ -18,6 +18,10 @@ This is an initial implementation for review and an online build, not a deployed
 - Optional queued AI drafts with OpenAI-compatible and Anthropic adapters, explicit disclosure consent, daily limits and immutable source references.
 - PostgreSQL/Prisma schema, two migrations, domain tests, HTTP/database integration test, CI workflow and Docker build targets.
 
+## Test without paying for cloud services
+
+Use `npm install` followed by `npm run local:test` for isolated test accounts, local files, PostgreSQL and ClamAV. No AWS account or live AI is required. See [the local testing guide](docs/LOCAL_TESTING.md) for prerequisites and a complete walkthrough. The normal setup below still uses managed production integrations.
+
 ## Start locally
 
 Prerequisites: Node.js 22.12+ (22 LTS recommended), npm, Docker, an AWS Cognito user pool, a private versioned S3 bucket and an IAM identity authorised for that bucket.

@@ -1,6 +1,6 @@
 import 'reflect-metadata';
 import { GetObjectCommand, HeadObjectCommand } from '@aws-sdk/client-s3';
-import { createConnection } from 'node:net';
+import { scanWithClamav } from '../../../packages/domain/clamav.mjs';
 import { configuration } from './config.js';
 import { Database, audit, serial, workAccess } from './core.js';
 import { ObjectStore } from './storage.js';
@@ -13,27 +13,6 @@ const storage=new ObjectStore(config);
 let stopping=false;
 process.on('SIGTERM',()=>{stopping=true;});
 process.on('SIGINT',()=>{stopping=true;});
-
-function scan(bytes:Buffer):Promise<void>{
-  return new Promise((resolve,reject)=>{
-    const socket=createConnection({host:config.CLAMAV_HOST,port:config.CLAMAV_PORT});
-    const chunks:Buffer[]=[];
-    socket.setTimeout(30000,()=>socket.destroy(new Error('Scanner timeout.')));
-    socket.on('error',reject);
-    const finish=()=>{
-      const response=Buffer.concat(chunks).toString();
-      socket.destroy();
-      if(/^stream: OK[\u0000\r\n]*$/.test(response))resolve();else reject(new Error('File rejected by scanner.'));
-    };
-    socket.on('data',chunk=>{chunks.push(chunk);if(chunk.includes(0)||chunk.includes(10))finish();});
-    socket.on('end',finish);
-    socket.on('connect',()=>{
-      socket.write('zINSTREAM\0');
-      for(let i=0;i<bytes.length;i+=65536){const part=bytes.subarray(i,i+65536);const size=Buffer.alloc(4);size.writeUInt32BE(part.length);socket.write(size);socket.write(part);}
-      socket.write(Buffer.alloc(4));
-    });
-  });
-}
 
 async function scanAsset(assetId:string){
   storage.configured();
@@ -48,7 +27,7 @@ async function scanAsset(assetId:string){
   for await(const chunk of object.Body as AsyncIterable<Uint8Array>){total+=chunk.length;if(total>MAX_UPLOAD)throw new Error('Upload too large.');pieces.push(Buffer.from(chunk));}
   const bytes=Buffer.concat(pieces);
   if(total!==asset.size||!matchesMime(bytes,asset.mimeType))throw new Error('Upload content does not match its declared type.');
-  await scan(bytes);
+  await scanWithClamav(bytes,config.CLAMAV_HOST,config.CLAMAV_PORT);
   await db.$transaction(async tx=>{
     const updated=await tx.asset.updateMany({where:{id:asset.id,status:'PENDING'},data:{status:'READY',objectVersion:head.VersionId,sha256:digest(bytes)}});
     if(updated.count)await audit(tx,asset.work.project.ownerId,'asset.scanned',asset.workId,{assetId:asset.id,sha256:digest(bytes)});
