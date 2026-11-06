@@ -1,0 +1,22 @@
+# Isolated local resources. No AWS services or payment providers.
+services:
+  postgres:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_USER: uce
+      POSTGRES_PASSWORD: local-development-only
+      POSTGRES_DB: uce_local_test
+    ports: ["127.0.0.1:5433:5432"]
+    volumes: ["local-postgres:/var/lib/postgresql/data"]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U uce -d uce_local_test"]
+      interval: 3s
+      timeout: 5s
+      retries: 30
+  clamav:
+    image: clamav/clamav:stable
+    ports: ["127.0.0.1:3311:3310"]
+    volumes: ["local-clamav:/var/lib/clamav"]
+volumes:
+  local-postgres:
+  local-clamav:

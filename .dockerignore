@@ -6,3 +6,5 @@ node_modules
 .env.*
 .git
 coverage
+
+.local-test-data
