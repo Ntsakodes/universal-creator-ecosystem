@@ -34,6 +34,8 @@ jobs:
       - run: npm run db:generate
       - run: npm run db:deploy
       - run: npm test
+      - name: Check API decorator loading from repository root
+        run: node --import tsx --input-type=module -e "await import('./apps/api/src/supabase-test/app.ts')"
       - run: npm run typecheck
       - run: npm run test:integration
       - name: Prepare isolated Supabase adapter fixture database
