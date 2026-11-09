@@ -15,7 +15,7 @@ Hosted Free projects have storage/database/egress limits and can pause when inac
 Install Node.js 22.12–24. Download/check out this branch and run:
 
 ```sh
-npm install
+npm ci
 ```
 
 Copy `.env.supabase-test.example` to `.env.supabase-test`. In PowerShell:

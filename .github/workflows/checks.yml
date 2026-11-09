@@ -29,10 +29,7 @@ jobs:
         with:
           node-version: 22
       - run: cp .env.example .env
-      # A lockfile must be generated, reviewed and committed on first online install.
-      - run: npm install
-      - name: Export resolved dependency metadata
-        run: node -e "process.stdout.write('UCE_LOCK_START'+JSON.stringify(require('./package-lock.json'))+'UCE_LOCK_END\\n')"
+      - run: npm ci
       - run: npm run db:validate
       - run: npm run db:generate
       - run: npm run db:deploy

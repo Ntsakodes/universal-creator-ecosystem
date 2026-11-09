@@ -1,18 +1,19 @@
 import { createHash } from 'node:crypto';
 import { readFile } from 'node:fs/promises';
+import { resolve } from 'node:path';
 import type { PrismaClient } from '@prisma/client';
 
 export const bootstrapMigrations = ['202611050001_foundation','202611050002_integrity'] as const;
-export async function bootstrapSources() {
+export async function bootstrapSources(root=process.cwd()) {
   return Promise.all(bootstrapMigrations.map(async name => ({
-    name, sql: (await readFile(new URL('../../../../prisma/migrations/'+name+'/migration.sql',import.meta.url),'utf8')).replaceAll('\r\n','\n')
+    name, sql: (await readFile(resolve(root,'prisma/migrations',name,'migration.sql'),'utf8')).replaceAll('\r\n','\n')
   })));
 }
-export async function adoptPreparedTestSchema(db:PrismaClient, resolveApplied:(name:string)=>Promise<void>) {
+export async function adoptPreparedTestSchema(db:PrismaClient, resolveApplied:(name:string)=>Promise<void>, root=process.cwd()) {
   const exists=await db.$queryRaw<Array<{present:boolean}>>`SELECT to_regclass('uce_test._uce_test_bootstrap') IS NOT NULL AS present`;
   if(!exists[0].present)return;
   const markers=await db.$queryRaw<Array<{migration_name:string;checksum_lf:string}>>`SELECT migration_name,checksum_lf FROM uce_test._uce_test_bootstrap`;
-  const sources=await bootstrapSources();
+  const sources=await bootstrapSources(root);
   const hash=(s:string)=>createHash('sha256').update(s).digest('hex');
   if(markers.length!==sources.length || sources.some(s=>markers.find(m=>m.migration_name===s.name)?.checksum_lf!==hash(s.sql)))
     throw new Error('Prepared schema migration checksum mismatch.');

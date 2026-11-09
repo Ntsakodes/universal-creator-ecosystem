@@ -26,7 +26,7 @@
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.2",
     "zod": "^4.1.12",
-    "@supabase/supabase-js": "^2.49.0"
+    "@supabase/supabase-js": "2.119.0"
   },
   "devDependencies": {
     "tsx": "^4.20.6",
