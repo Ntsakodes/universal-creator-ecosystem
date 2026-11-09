@@ -29,12 +29,29 @@ jobs:
         with:
           node-version: 22
       - run: cp .env.example .env
-      # A lockfile must be generated, reviewed and committed on first online install.
-      - run: npm install
+      - run: npm ci
       - run: npm run db:validate
       - run: npm run db:generate
       - run: npm run db:deploy
       - run: npm test
+      - name: Check API decorator loading from repository root
+        run: node --import tsx --input-type=module -e "await import('./apps/api/src/supabase-test/app.ts')"
       - run: npm run typecheck
       - run: npm run test:integration
+      - name: Prepare isolated Supabase adapter fixture database
+        env:
+          PGPASSWORD: local-development-only
+        run: |
+          psql -h localhost -U uce -d postgres -c 'CREATE DATABASE uce_supabase_test;'
+          psql -h localhost -U uce -d postgres -c 'CREATE ROLE anon NOLOGIN; CREATE ROLE authenticated NOLOGIN;'
+          DATABASE_URL=postgresql://uce:local-development-only@localhost:5432/uce_supabase_test?schema=uce_test npm run db:deploy
+      - name: Prepare pre-existing hosted-schema fixture
+        env:
+          PGPASSWORD: local-development-only
+        run: |
+          psql -h localhost -U uce -d postgres -c 'CREATE DATABASE uce_supabase_baseline;'
+          psql -h localhost -U uce -d uce_supabase_baseline -c 'CREATE SCHEMA uce_test;'
+          PGOPTIONS='--search_path=uce_test' psql -v ON_ERROR_STOP=1 -h localhost -U uce -d uce_supabase_baseline -f prisma/migrations/202611050001_foundation/migration.sql
+          PGOPTIONS='--search_path=uce_test' psql -v ON_ERROR_STOP=1 -h localhost -U uce -d uce_supabase_baseline -f prisma/migrations/202611050002_integrity/migration.sql
+      - run: npm run test:supabase-integration
       - run: npm run build
