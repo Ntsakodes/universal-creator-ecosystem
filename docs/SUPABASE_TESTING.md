@@ -4,9 +4,9 @@ This optional entrypoint uses a dedicated Supabase test project for PostgreSQL, 
 
 Use dummy creative files and test identities. Do not connect an existing production project or import real IP, indigenous knowledge or personal records.
 
-## 1. Create a dedicated Free project
+## 1. Use the dedicated Free test project
 
-Create a NEW Supabase project named UCE Testing in a Free organisation. Do not upgrade, enable paid add-ons or use an existing production database for this test. The app does not have billing permissions or an automated project-creation step.
+The connected **UCE Testing** project (ref `fqccfciqaakvxezfwhty`, URL https://fqccfciqaakvxezfwhty.supabase.co) was verified in a Free organisation on 9 November 2026. Its private `uce_test` schema and `uce-test-vault` bucket have been prepared. Use this project; you do not need to create another one. Do not upgrade, enable paid add-ons or use an existing production database for this test. The app does not have billing permissions or an automated project-creation step.
 
 Hosted Free projects have storage/database/egress limits and can pause when inactive. Keep files small. Supabase is not guaranteed to stay free for a production workload.
 
@@ -41,7 +41,7 @@ Direct `db.PROJECT_REF.supabase.co` database connections on port 5432 are also s
 npm run supabase:test:prepare
 ```
 
-This creates/migrates schema `uce_test`, revokes direct anon/authenticated access to its tables, enables row-level security, and creates private bucket `uce-test-vault` with a 25 MB file limit.
+For the prepared project, setup verifies the original migration checksums, table names and integrity triggers before baselining Prisma migration history. It refuses mismatches or unfinished migrations; it does not recreate existing tables. Re-running setup is safe. For a fresh dedicated test project, it applies migrations normally.\n\nThis creates/migrates schema `uce_test`, revokes direct anon/authenticated access to its tables, enables row-level security, and creates private bucket `uce-test-vault` with a 25 MB file limit.
 
 It does not migrate Supabase's auth/storage schemas or any public tables. Do not add uce_test to the project's exposed Data API schemas, and do not add public/user policies to the test bucket. UCE authorises access on its backend. Secret keys bypass RLS and remain server-only.
 
@@ -106,7 +106,7 @@ A scanner failure never approves a file. Start a fresh dummy upload after fixing
 - An already-issued download link may work until its 60-second expiry after revocation.
 - The backend database connection is privileged. Keep it private; schema isolation/RLS do not replace backend authorisation.
 - This test-only schema is not a reviewed production migration, backup strategy or POPIA compliance determination.
-- No production database migration, paid infrastructure or live provider account was performed while preparing this branch.
+- Only the dedicated hosted test schema and private bucket were prepared. No production database or paid infrastructure was changed.
 
 ## Tests
 

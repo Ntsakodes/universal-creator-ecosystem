@@ -9,7 +9,7 @@
     "start": "node dist/apps/api/src/main.js",
     "typecheck": "tsc --noEmit",
     "test:integration": "tsx --env-file=../../.env --test test/integration.test.ts",
-    "test:supabase-integration": "tsx --env-file=../../.env --test test/supabase-test.integration.test.ts"
+    "test:supabase-integration": "tsx --env-file=../../.env --test test/supabase-test.integration.test.ts test/supabase-baseline.integration.test.ts"
   },
   "dependencies": {
     "@nestjs/common": "^11.1.6",

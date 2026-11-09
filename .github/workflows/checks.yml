@@ -31,6 +31,8 @@ jobs:
       - run: cp .env.example .env
       # A lockfile must be generated, reviewed and committed on first online install.
       - run: npm install
+      - name: Export resolved dependency metadata
+        run: node -e "process.stdout.write('UCE_LOCK_START'+JSON.stringify(require('./package-lock.json'))+'UCE_LOCK_END\\n')"
       - run: npm run db:validate
       - run: npm run db:generate
       - run: npm run db:deploy
@@ -44,5 +46,13 @@ jobs:
           psql -h localhost -U uce -d postgres -c 'CREATE DATABASE uce_supabase_test;'
           psql -h localhost -U uce -d postgres -c 'CREATE ROLE anon NOLOGIN; CREATE ROLE authenticated NOLOGIN;'
           DATABASE_URL=postgresql://uce:local-development-only@localhost:5432/uce_supabase_test?schema=uce_test npm run db:deploy
+      - name: Prepare pre-existing hosted-schema fixture
+        env:
+          PGPASSWORD: local-development-only
+        run: |
+          psql -h localhost -U uce -d postgres -c 'CREATE DATABASE uce_supabase_baseline;'
+          psql -h localhost -U uce -d uce_supabase_baseline -c 'CREATE SCHEMA uce_test;'
+          PGOPTIONS='--search_path=uce_test' psql -v ON_ERROR_STOP=1 -h localhost -U uce -d uce_supabase_baseline -f prisma/migrations/202611050001_foundation/migration.sql
+          PGOPTIONS='--search_path=uce_test' psql -v ON_ERROR_STOP=1 -h localhost -U uce -d uce_supabase_baseline -f prisma/migrations/202611050002_integrity/migration.sql
       - run: npm run test:supabase-integration
       - run: npm run build
