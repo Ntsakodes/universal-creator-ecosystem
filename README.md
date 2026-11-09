@@ -18,6 +18,10 @@ This is an initial implementation for review and an online build, not a deployed
 - Optional queued AI drafts with OpenAI-compatible and Anthropic adapters, explicit disclosure consent, daily limits and immutable source references.
 - PostgreSQL/Prisma schema, two migrations, domain tests, HTTP/database integration test, CI workflow and Docker build targets.
 
+## Supabase testing option
+
+For a dedicated Supabase Free test project, see [Supabase testing](docs/SUPABASE_TESTING.md). This optional mode uses real Supabase Auth, a private database schema and private Storage; production Cognito/S3 remain unchanged. Payments and live AI are disabled. Start only after filling the ignored local test configuration and running its prepare command.
+
 ## Start locally
 
 Prerequisites: Node.js 22.12+ (22 LTS recommended), npm, Docker, an AWS Cognito user pool, a private versioned S3 bucket and an IAM identity authorised for that bucket.
