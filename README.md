@@ -4,7 +4,7 @@ Foundation source for a unified creator platform, based on `AGENTS.md`.
 
 ## Release status
 
-This is an initial implementation for review and an online build, not a deployed or production-certified service. No production data or sample accounts are seeded. Package downloads and Git cloning were blocked in the authoring environment; Docker and PostgreSQL were unavailable. The dependency-free policy/AI tests passed. Dependency installation, Prisma validation, SQL execution, typechecking, browser journeys, and live identity/storage/AI integration remain to be run in the target development environment. See [verification](docs/VERIFICATION.md).
+This is a testing foundation, not a deployed or production-certified service. GitHub Actions validates migrations, unit tests, API/database integration, typechecking and application builds. The separate Supabase testing mode targets the connected UCE Testing Free project; its private schema and bucket are prepared. Hosted sign-in, uploads and browser journeys still need local credentials and acceptance testing. See [verification](docs/VERIFICATION.md).
 
 ## Included
 
@@ -29,7 +29,7 @@ Prerequisites: Node.js 22.12+ (22 LTS recommended), npm, Docker, an AWS Cognito 
 ```sh
 cp .env.example .env
 # Edit .env with real development configuration before starting the application.
-npm install
+npm ci
 npm run db:validate
 npm run db:generate
 docker compose up -d postgres clamav
@@ -51,7 +51,7 @@ npm run worker
 
 Open `http://localhost:3000`. Development API documentation is at `http://localhost:4000/api/docs`. API liveness: `http://localhost:4000/api/v1/health`.
 
-The first successful online install must generate and commit `package-lock.json`. Review the resolved dependencies and security advisories, then change installation commands in CI and Docker to `npm ci`. No unverified lockfile was fabricated.
+Resolved dependencies are committed in `package-lock.json`; use `npm ci` for reproducible installs. The Supabase SDK is pinned to its tested version.
 
 ## Identity setup
 
