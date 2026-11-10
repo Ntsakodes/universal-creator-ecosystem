@@ -2,6 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { Button } from '../components/ui/Button';
+import { ButtonLink } from '../components/ui/ButtonLink';
 import { FormField } from '../components/ui/FormField';
 import { Card } from '../components/ui/Card';
 import { StatusBadge } from '../components/ui/StatusBadge';
@@ -13,6 +14,15 @@ test('shared buttons default to non-submitting and preserve explicit submit/disa
   const submit = renderToStaticMarkup(<Button type="submit" disabled>Save</Button>);
   assert.match(submit, /type="submit"/);
   assert.match(submit, /disabled=""/);
+});
+
+test('button links preserve native authentication and workspace destinations', () => {
+  for (const href of ['/api/v1/auth/login', '/api/v1/auth/register', '/workspace']) {
+    const html = renderToStaticMarkup(<ButtonLink href={href} variant="secondary">Continue</ButtonLink>);
+    assert.match(html, /^<a /);
+    assert.ok(html.includes(`href="${href}"`));
+    assert.doesNotMatch(html, /<button|aria-disabled|onclick/i);
+  }
 });
 
 test('fields retain labels, required/optional, initial values, select and numeric precision', () => {

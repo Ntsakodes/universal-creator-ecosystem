@@ -15,7 +15,8 @@
     "build": "npm run db:generate && npm run build --workspaces",
     "test": "node --test tests/*.test.mjs && npm test --workspace @uce/web",
     "test:integration": "npm run test:integration --workspace @uce/api",
-    "test:browser": "npm run test:browser --workspace @uce/web"
+    "test:browser": "npm run test:browser --workspace @uce/web",
+    "test:landing": "npm run test:landing --workspace @uce/web"
   },
   "dependencies": { "@prisma/client": "6.19.0" },
   "devDependencies": { "prisma": "6.19.0", "typescript": "~5.9.3", "@types/node": "^22.19.0" }

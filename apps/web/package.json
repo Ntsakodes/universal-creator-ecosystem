@@ -8,7 +8,8 @@
     "start": "next start",
     "typecheck": "tsc --noEmit",
     "test": "tsx --tsconfig tsconfig.json --test test/*.test.tsx",
-    "test:browser": "node --env-file=../../.env test/browser-check.mjs"
+    "test:browser": "node --env-file=../../.env test/browser-check.mjs",
+    "test:landing": "node --env-file=../../.env test/landing-check.mjs"
   },
   "dependencies": {
     "next": "^16.2.6",
