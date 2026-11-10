@@ -55,3 +55,13 @@ h1,h2,h3,.list-row,.page-heading { overflow-wrap:anywhere; }
 .welcome-banner .eyebrow { color:inherit; }
 .welcome-banner button { background:var(--africo-surface); color:var(--africo-on-surface); }
 .project-row:hover { background:var(--africo-secondary-background); }
+
+/* Milestone 1 browser review: retain readable navigation and project context. */
+.uce-shell .nav-number { opacity:1; font-size:var(--type-label-small-size); }
+.uce-shell .sidebar { overflow-y:auto; }
+.context-bar label { min-width:0; flex:1 1 16rem; }
+.context-bar select { min-width:0; flex:1; }
+@media(max-width:720px) {
+  .context-bar label { flex-basis:100%; }
+  .context-bar select { max-width:none; }
+}

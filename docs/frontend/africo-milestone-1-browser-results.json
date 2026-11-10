@@ -1,0 +1,401 @@
+{
+  "results": [
+    {
+      "label": "signed-out workspace",
+      "passed": true
+    },
+    {
+      "label": "landing desktop",
+      "url": "http://localhost:3000/",
+      "overflow": {
+        "width": 1440,
+        "scroll": 1440
+      },
+      "violations": []
+    },
+    {
+      "label": "overview desktop",
+      "url": "http://localhost:3000/workspace",
+      "overflow": {
+        "width": 1440,
+        "scroll": 1440
+      },
+      "violations": []
+    },
+    {
+      "label": "computed design styles",
+      "styles": {
+        "heading": "\"Playfair Display\", \"Playfair Display Fallback\", serif",
+        "body": "Inter, \"Inter Fallback\", sans-serif",
+        "background": "rgb(249, 248, 246)",
+        "sidebar": "rgb(255, 255, 255)"
+      }
+    },
+    {
+      "label": "Projects desktop",
+      "url": "http://localhost:3000/workspace",
+      "overflow": {
+        "width": 1440,
+        "scroll": 1440
+      },
+      "violations": []
+    },
+    {
+      "label": "IP Vault desktop",
+      "url": "http://localhost:3000/workspace",
+      "overflow": {
+        "width": 1440,
+        "scroll": 1440
+      },
+      "violations": []
+    },
+    {
+      "label": "Academic network desktop",
+      "url": "http://localhost:3000/workspace",
+      "overflow": {
+        "width": 1440,
+        "scroll": 1440
+      },
+      "violations": []
+    },
+    {
+      "label": "Community funding desktop",
+      "url": "http://localhost:3000/workspace",
+      "overflow": {
+        "width": 1440,
+        "scroll": 1440
+      },
+      "violations": []
+    },
+    {
+      "label": "AI assistant desktop",
+      "url": "http://localhost:3000/workspace",
+      "overflow": {
+        "width": 1440,
+        "scroll": 1440
+      },
+      "violations": []
+    },
+    {
+      "label": "My profile desktop",
+      "url": "http://localhost:3000/workspace",
+      "overflow": {
+        "width": 1440,
+        "scroll": 1440
+      },
+      "violations": []
+    },
+    {
+      "label": "real profile form submission",
+      "passed": true
+    },
+    {
+      "label": "real project form submission",
+      "passed": true
+    },
+    {
+      "label": "vault with real work desktop",
+      "url": "http://localhost:3000/workspace",
+      "overflow": {
+        "width": 1440,
+        "scroll": 1440
+      },
+      "violations": []
+    },
+    {
+      "label": "real work form submission",
+      "passed": true
+    },
+    {
+      "label": "Projects width 320",
+      "url": "http://localhost:3000/workspace",
+      "overflow": {
+        "width": 320,
+        "scroll": 320
+      },
+      "violations": []
+    },
+    {
+      "label": "IP Vault width 320",
+      "url": "http://localhost:3000/workspace",
+      "overflow": {
+        "width": 320,
+        "scroll": 320
+      },
+      "violations": []
+    },
+    {
+      "label": "My profile width 320",
+      "url": "http://localhost:3000/workspace",
+      "overflow": {
+        "width": 320,
+        "scroll": 320
+      },
+      "violations": []
+    },
+    {
+      "label": "Academic network width 320",
+      "url": "http://localhost:3000/workspace",
+      "overflow": {
+        "width": 320,
+        "scroll": 320
+      },
+      "violations": []
+    },
+    {
+      "label": "Community funding width 320",
+      "url": "http://localhost:3000/workspace",
+      "overflow": {
+        "width": 320,
+        "scroll": 320
+      },
+      "violations": []
+    },
+    {
+      "label": "AI assistant width 320",
+      "url": "http://localhost:3000/workspace",
+      "overflow": {
+        "width": 320,
+        "scroll": 320
+      },
+      "violations": []
+    },
+    {
+      "label": "Projects width 390",
+      "url": "http://localhost:3000/workspace",
+      "overflow": {
+        "width": 390,
+        "scroll": 390
+      },
+      "violations": []
+    },
+    {
+      "label": "IP Vault width 390",
+      "url": "http://localhost:3000/workspace",
+      "overflow": {
+        "width": 390,
+        "scroll": 390
+      },
+      "violations": []
+    },
+    {
+      "label": "My profile width 390",
+      "url": "http://localhost:3000/workspace",
+      "overflow": {
+        "width": 390,
+        "scroll": 390
+      },
+      "violations": []
+    },
+    {
+      "label": "Academic network width 390",
+      "url": "http://localhost:3000/workspace",
+      "overflow": {
+        "width": 390,
+        "scroll": 390
+      },
+      "violations": []
+    },
+    {
+      "label": "Community funding width 390",
+      "url": "http://localhost:3000/workspace",
+      "overflow": {
+        "width": 390,
+        "scroll": 390
+      },
+      "violations": []
+    },
+    {
+      "label": "AI assistant width 390",
+      "url": "http://localhost:3000/workspace",
+      "overflow": {
+        "width": 390,
+        "scroll": 390
+      },
+      "violations": []
+    },
+    {
+      "label": "Projects width 768",
+      "url": "http://localhost:3000/workspace",
+      "overflow": {
+        "width": 768,
+        "scroll": 768
+      },
+      "violations": []
+    },
+    {
+      "label": "IP Vault width 768",
+      "url": "http://localhost:3000/workspace",
+      "overflow": {
+        "width": 768,
+        "scroll": 768
+      },
+      "violations": []
+    },
+    {
+      "label": "My profile width 768",
+      "url": "http://localhost:3000/workspace",
+      "overflow": {
+        "width": 768,
+        "scroll": 768
+      },
+      "violations": []
+    },
+    {
+      "label": "Academic network width 768",
+      "url": "http://localhost:3000/workspace",
+      "overflow": {
+        "width": 768,
+        "scroll": 768
+      },
+      "violations": []
+    },
+    {
+      "label": "Community funding width 768",
+      "url": "http://localhost:3000/workspace",
+      "overflow": {
+        "width": 768,
+        "scroll": 768
+      },
+      "violations": []
+    },
+    {
+      "label": "AI assistant width 768",
+      "url": "http://localhost:3000/workspace",
+      "overflow": {
+        "width": 768,
+        "scroll": 768
+      },
+      "violations": []
+    },
+    {
+      "label": "Projects width 1024",
+      "url": "http://localhost:3000/workspace",
+      "overflow": {
+        "width": 1024,
+        "scroll": 1024
+      },
+      "violations": []
+    },
+    {
+      "label": "IP Vault width 1024",
+      "url": "http://localhost:3000/workspace",
+      "overflow": {
+        "width": 1024,
+        "scroll": 1024
+      },
+      "violations": []
+    },
+    {
+      "label": "My profile width 1024",
+      "url": "http://localhost:3000/workspace",
+      "overflow": {
+        "width": 1024,
+        "scroll": 1024
+      },
+      "violations": []
+    },
+    {
+      "label": "Academic network width 1024",
+      "url": "http://localhost:3000/workspace",
+      "overflow": {
+        "width": 1024,
+        "scroll": 1024
+      },
+      "violations": []
+    },
+    {
+      "label": "Community funding width 1024",
+      "url": "http://localhost:3000/workspace",
+      "overflow": {
+        "width": 1024,
+        "scroll": 1024
+      },
+      "violations": []
+    },
+    {
+      "label": "AI assistant width 1024",
+      "url": "http://localhost:3000/workspace",
+      "overflow": {
+        "width": 1024,
+        "scroll": 1024
+      },
+      "violations": []
+    },
+    {
+      "label": "mobile navigation closes and restores content focus",
+      "passed": true
+    },
+    {
+      "label": "landing width 320",
+      "url": "http://localhost:3000/",
+      "overflow": {
+        "width": 320,
+        "scroll": 320
+      },
+      "violations": []
+    },
+    {
+      "label": "expanded mobile navigation",
+      "url": "http://localhost:3000/workspace#workspace-content",
+      "overflow": {
+        "width": 390,
+        "scroll": 390
+      },
+      "violations": []
+    },
+    {
+      "label": "keyboard skip link and menu navigation",
+      "passed": true
+    },
+    {
+      "label": "mobile context selector width",
+      "pixels": 258.125
+    },
+    {
+      "label": "projects dark desktop",
+      "url": "http://localhost:3000/workspace#workspace-content",
+      "overflow": {
+        "width": 1440,
+        "scroll": 1440
+      },
+      "violations": []
+    },
+    {
+      "label": "vault dark desktop",
+      "url": "http://localhost:3000/workspace#workspace-content",
+      "overflow": {
+        "width": 1440,
+        "scroll": 1440
+      },
+      "violations": []
+    },
+    {
+      "label": "profile dark desktop",
+      "url": "http://localhost:3000/workspace#workspace-content",
+      "overflow": {
+        "width": 1440,
+        "scroll": 1440
+      },
+      "violations": []
+    },
+    {
+      "label": "profile dark mobile",
+      "url": "http://localhost:3000/workspace#workspace-content",
+      "overflow": {
+        "width": 320,
+        "scroll": 320
+      },
+      "violations": []
+    },
+    {
+      "label": "short desktop sidebar account access",
+      "passed": true
+    },
+    {
+      "label": "expired session returns to sign-in state",
+      "passed": true
+    }
+  ],
+  "errors": []
+}

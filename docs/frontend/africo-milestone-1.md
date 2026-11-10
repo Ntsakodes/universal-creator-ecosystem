@@ -37,7 +37,11 @@ Date: 10 November 2026. Scope: foundation baseline and shared design system only
 | `apps/web/next-env.d.ts` | Next-generated route/root parameter type references. |
 | `docs/frontend/africo-milestone-1.md` | Baseline, exact change inventory, validation and remaining gates. |
 
-## Validation and limitations
+## Original validation snapshot
+
+The outstanding browser and local integration checks were subsequently completed. See [the milestone 1 review](africo-milestone-1-review.md) for current fixes, evidence and remaining service limits.
+
+### Initial results
 
 - Existing domain/AI/policy tests: 19 passed.
 - New frontend component rendering tests: 4 passed.

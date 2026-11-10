@@ -1,6 +1,25 @@
 {
-  "name": "@uce/web", "version": "0.1.0", "private": true,
-  "scripts": { "dev": "node --env-file=../../.env ../../node_modules/next/dist/bin/next dev", "build": "next build", "start": "next start", "typecheck": "tsc --noEmit", "test": "tsx --tsconfig tsconfig.json --test test/*.test.tsx" },
-  "dependencies": { "next": "^16.2.6", "react": "^19.2.4", "react-dom": "^19.2.4" },
-  "devDependencies": { "@types/react": "^19.2.0", "@types/react-dom": "^19.2.0", "tsx": "^4.20.6" }
+  "name": "@uce/web",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "node --env-file=../../.env ../../node_modules/next/dist/bin/next dev",
+    "build": "next build",
+    "start": "next start",
+    "typecheck": "tsc --noEmit",
+    "test": "tsx --tsconfig tsconfig.json --test test/*.test.tsx",
+    "test:browser": "node --env-file=../../.env test/browser-check.mjs"
+  },
+  "dependencies": {
+    "next": "^16.2.6",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "4.14.0",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "playwright": "1.65.0",
+    "tsx": "^4.20.6"
+  }
 }
